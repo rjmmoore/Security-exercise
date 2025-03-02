@@ -3,8 +3,31 @@
     <div class="col-3">
       <h4>
         <%# TODO: display the name of the user who created the post %>
+        <% if @current_user %>
+  <form action="/posts" method="post">
+    <textarea name="content"></textarea>
+    <button>Post</button>
+  </form>
+<% else %>
+  <p>You must <a href="/login">login</a> to post.</p>
+<% end %>
         <%# 1. find user who created post %>
+        <% if @current_user %>
+  <form action="/posts" method="post">
+    <textarea name="content"></textarea>
+    <button>Post</button>
+  </form>
+<% else %>
+  <p>You must <a href="/login">login</a> to post.</p>
+<% end %>
         <%# 2. handle any potential bad data where the post is missing a user %>
+        <% @posts.each do |post| %>
+  <p>
+    <strong><%= User.find_by({ "id" => post["user_id"] })["first_name"] %></strong>
+    <br>
+    <%= post["content"] %>
+  </p>
+<% end %>
         anonymous
       </h4>
       <img src="<%= post["image"] %>" class="img-fluid w-full">
